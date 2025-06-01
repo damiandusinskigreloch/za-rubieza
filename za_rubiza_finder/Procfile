@@ -1,0 +1,1 @@
+web: gunicorn za_rubiza_finder.wsgi

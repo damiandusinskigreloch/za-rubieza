@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: za-rubiza-finder
+    runtime: python
+    buildCommand: ""
+    startCommand: gunicorn za_rubiza_finder.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: za_rubiza_finder.settings
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: SECRET_KEY
+        generateValue: true
+      - fromDatabase:
+          name: za-rubiza-db
+          property: connectionString
+          key: DATABASE_URL
+
+databases:
+  - name: za-rubiza-db
+    plan: free

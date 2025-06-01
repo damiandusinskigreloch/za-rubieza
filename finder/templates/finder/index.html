@@ -1,0 +1,66 @@
+<!-- finder/templates/finder/moj_szablon.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Podcast - Za Rubieżą</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'finder/styles.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>Wyszukiwarka Za Rubieżą - ALFA v0.1</h1>
+    </header>
+    <!-- Formularz wyszukiwania -->
+    <nav>
+        <ul class="menu">
+            <li><a href="{% url 'finder:search' %}?q=japonii">Historia Japonii</a></li>
+            <li><a href="{% url 'finder:search' %}?q=ulało mi się">Ulało mi się</a></li>
+            <li><a href="{% url 'finder:search' %}?q=co to się staneło">Co tu się staneło </a></li>
+            <li><a href="{% url 'finder:search' %}?q=inni mają gorzej">Inni mają gorzej</a></li>
+            <li><a href="{% url 'finder:search' %}?q=Zrozumieć Rosję">Zrozumieć Rosję</a></li>
+            <li><a href="{% url 'finder:search' %}?q=Historia Francji">Historia Francji</a></li>
+        </ul>
+    </nav>
+
+    <div class="finder">
+         <form class="search-form" method="GET" action="{% url 'finder:search' %}">
+            <input class="search-input" type="text" name="q" placeholder="Szukaj po nazwie odcinka" value="" />
+            <button class="btn" type="submit">Szukaj</button>
+        </form>
+    </div>
+
+
+    <section>
+
+        {% if episodes %}
+            <article>
+                <ul class="episode-list">
+                    <h2>Liczba odcinków: {{total}}</h2>
+                    {% for episode in episodes %}
+                        <li class="episode_container">
+                            <img src="{{ episode.images.0.url }}" alt="{{ episode.name }}" width="300">
+                            
+                            <div class="episode_box">
+                            <h2>{{ episode.name }}</h2>
+                            <p><strong>Data publikacji:</strong> {{ episode.release_date }}</p>
+                            {% comment %} <p>{{ episode.description|safe|truncatewords:30 }}</p> {% endcomment %}
+                            {% if episode.external_urls.spotify %}
+                                <p><a href="{{ episode.external_urls.spotify }}" target="_blank" rel="noopener noreferrer">Odsłuchaj na Spotify</a></p>
+                            {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </article>
+        {% else %}
+            <p>Brak odcinków do wyświetlenia.</p>
+        {% endif %}
+    </section>
+</body>
+</html>
