@@ -5,3 +5,4 @@ dj-database-url
 requests
 spotipy
 dj-database-url
+whitenoise
